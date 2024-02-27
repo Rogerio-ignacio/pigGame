@@ -20,9 +20,13 @@ document.querySelector('.btn--roll').addEventListener('click', function () {
       ? (currentScoreP1.textContent = curScore)
       : (currentScoreP2.textContent = curScore);
   } else if (player1.classList.contains('player--active')) {
+    curScore = 0;
+    currentScoreP1.textContent = curScore;
     player1.classList.remove('player--active');
     player2.classList.add('player--active');
   } else {
+    curScore = 0;
+    currentScoreP2.textContent = curScore;
     player2.classList.remove('player--active');
     player1.classList.add('player--active');
   }
