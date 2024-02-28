@@ -8,9 +8,16 @@ let currentScoreP2 = document.querySelector('#current--1');
 let player1 = document.querySelector('.player--0');
 let player2 = document.querySelector('.player--1');
 
+totalScoreP1.textContent = 0;
+totalScoreP2.textContent = 0;
 let curScore = 0;
-let totalScore = 0;
+let totalScore1 = 0;
+let totalScore2 = 0;
 let player = 0;
+
+player1.classList.remove('player-winner');
+player2.classList.remove('player-winner');
+
 document.querySelector('.btn--roll').addEventListener('click', function () {
   const randDice = Math.trunc(Math.random() * 6) + 1;
   dice.src = `dice-${randDice}.png`;
@@ -32,5 +39,29 @@ document.querySelector('.btn--roll').addEventListener('click', function () {
   }
 });
 
-document.querySelector('.btn--hold').addEventListener('click', function () {});
+document.querySelector('.btn--hold').addEventListener('click', function () {
+  if (totalScore1 !== 20 && totalScore2 !== 20) {
+    if (player1.classList.contains('player--active')) {
+      totalScore1 += curScore;
+      totalScoreP1.textContent = totalScore1;
+      curScore = 0;
+      currentScoreP1.textContent = curScore;
+      player1.classList.remove('player--active');
+      player2.classList.add('player--active');
+    } else {
+      totalScore2 += curScore;
+      totalScoreP2.textContent = totalScore2;
+      curScore = 0;
+      currentScoreP2.textContent = curScore;
+      player2.classList.remove('player--active');
+      player1.classList.add('player--active');
+    }
+  }
+  if (totalScore1 >= 20) {
+    player1.classList.add('player--winner');
+  }
+  if (totalScore2 >= 20) {
+    player2.classList.add('player--winner');
+  }
+});
 document.querySelector('.btn--new').addEventListener('click', function () {});
