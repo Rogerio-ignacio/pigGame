@@ -15,32 +15,31 @@ let totalScore1 = 0;
 let totalScore2 = 0;
 let player = 0;
 
-player1.classList.remove('player-winner');
-player2.classList.remove('player-winner');
-
 document.querySelector('.btn--roll').addEventListener('click', function () {
-  const randDice = Math.trunc(Math.random() * 6) + 1;
-  dice.src = `dice-${randDice}.png`;
-  if (randDice !== 1) {
-    curScore += randDice;
-    player1.classList.contains('player--active')
-      ? (currentScoreP1.textContent = curScore)
-      : (currentScoreP2.textContent = curScore);
-  } else if (player1.classList.contains('player--active')) {
-    curScore = 0;
-    currentScoreP1.textContent = curScore;
-    player1.classList.remove('player--active');
-    player2.classList.add('player--active');
-  } else {
-    curScore = 0;
-    currentScoreP2.textContent = curScore;
-    player2.classList.remove('player--active');
-    player1.classList.add('player--active');
+  if (totalScore1 <= 20 && totalScore2 <= 20) {
+    const randDice = Math.trunc(Math.random() * 6) + 1;
+    dice.src = `dice-${randDice}.png`;
+    if (randDice !== 1) {
+      curScore += randDice;
+      player1.classList.contains('player--active')
+        ? (currentScoreP1.textContent = curScore)
+        : (currentScoreP2.textContent = curScore);
+    } else if (player1.classList.contains('player--active')) {
+      curScore = 0;
+      currentScoreP1.textContent = curScore;
+      player1.classList.remove('player--active');
+      player2.classList.add('player--active');
+    } else {
+      curScore = 0;
+      currentScoreP2.textContent = curScore;
+      player2.classList.remove('player--active');
+      player1.classList.add('player--active');
+    }
   }
 });
 
 document.querySelector('.btn--hold').addEventListener('click', function () {
-  if (totalScore1 !== 20 && totalScore2 !== 20) {
+  if (totalScore1 <= 20 && totalScore2 <= 20) {
     if (player1.classList.contains('player--active')) {
       totalScore1 += curScore;
       totalScoreP1.textContent = totalScore1;
@@ -64,4 +63,18 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
     player2.classList.add('player--winner');
   }
 });
-document.querySelector('.btn--new').addEventListener('click', function () {});
+document.querySelector('.btn--new').addEventListener('click', function () {
+  player1.classList.remove('player--winner');
+  player2.classList.remove('player--winner');
+  player2.classList.remove('player--active');
+  player1.classList.add('player--active');
+
+  curScore = 0;
+  totalScore1 = 0;
+  totalScore2 = 0;
+
+  currentScoreP1.textContent = curScore;
+  currentScoreP2.textContent = curScore;
+  totalScoreP1.textContent = totalScore1;
+  totalScoreP2.textContent = totalScore2;
+});
