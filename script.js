@@ -16,7 +16,7 @@ let totalScore2 = 0;
 let player = 0;
 
 document.querySelector('.btn--roll').addEventListener('click', function () {
-  if (totalScore1 <= 20 && totalScore2 <= 20) {
+  if (totalScore1 < 100 && totalScore2 < 100) {
     const randDice = Math.trunc(Math.random() * 6) + 1;
     dice.src = `dice-${randDice}.png`;
     if (randDice !== 1) {
@@ -39,7 +39,7 @@ document.querySelector('.btn--roll').addEventListener('click', function () {
 });
 
 document.querySelector('.btn--hold').addEventListener('click', function () {
-  if (totalScore1 <= 20 && totalScore2 <= 20) {
+  if (totalScore1 < 100 && totalScore2 < 100) {
     if (player1.classList.contains('player--active')) {
       totalScore1 += curScore;
       totalScoreP1.textContent = totalScore1;
@@ -56,19 +56,18 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
       player1.classList.add('player--active');
     }
   }
-  if (totalScore1 >= 20) {
+  if (totalScore1 >= 100) {
     player1.classList.add('player--winner');
+    player2.classList.remove('player--active');
+    player1.classList.add('player--active');
   }
-  if (totalScore2 >= 20) {
+  if (totalScore2 >= 100) {
     player2.classList.add('player--winner');
+    player1.classList.remove('player--active');
+    player2.classList.add('player--active');
   }
 });
 document.querySelector('.btn--new').addEventListener('click', function () {
-  player1.classList.remove('player--winner');
-  player2.classList.remove('player--winner');
-  player2.classList.remove('player--active');
-  player1.classList.add('player--active');
-
   curScore = 0;
   totalScore1 = 0;
   totalScore2 = 0;
@@ -77,4 +76,9 @@ document.querySelector('.btn--new').addEventListener('click', function () {
   currentScoreP2.textContent = curScore;
   totalScoreP1.textContent = totalScore1;
   totalScoreP2.textContent = totalScore2;
+
+  player1.classList.remove('player--winner');
+  player2.classList.remove('player--winner');
+  player2.classList.remove('player--active');
+  player1.classList.add('player--active');
 });
