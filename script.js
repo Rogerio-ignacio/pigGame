@@ -13,8 +13,48 @@ totalScoreP2.textContent = 0;
 let curScore = 0;
 let totalScore1 = 0;
 let totalScore2 = 0;
-let player = 0;
+let player = [0, 1];
 
+// FUNCTIONS
+const changePlayer = function () {
+  if (player1.classList.contains('player--active')) {
+    curScore = 0;
+    currentScoreP1.textContent = curScore;
+    player1.classList.remove('player--active');
+    player2.classList.add('player--active');
+  } else {
+    curScore = 0;
+    currentScoreP2.textContent = curScore;
+    player2.classList.remove('player--active');
+    player1.classList.add('player--active');
+  }
+};
+
+const verifyPlayerWinner = function () {
+  if (totalScore1 >= 100) {
+    player1.classList.add('player--winner');
+    player2.classList.remove('player--active');
+    player1.classList.add('player--active');
+  } else if (totalScore2 >= 100) {
+    player2.classList.add('player--winner');
+    player1.classList.remove('player--active');
+    player2.classList.add('player--active');
+  }
+};
+
+const sumTotalScore = function () {
+  if (player1.classList.contains('player--active')) {
+    totalScore1 += curScore;
+    totalScoreP1.textContent = totalScore1;
+    changePlayer();
+  } else {
+    totalScore2 += curScore;
+    totalScoreP2.textContent = totalScore2;
+    changePlayer();
+  }
+};
+
+//METHODS
 document.querySelector('.btn--roll').addEventListener('click', function () {
   if (totalScore1 < 100 && totalScore2 < 100) {
     const randDice = Math.trunc(Math.random() * 6) + 1;
@@ -24,49 +64,19 @@ document.querySelector('.btn--roll').addEventListener('click', function () {
       player1.classList.contains('player--active')
         ? (currentScoreP1.textContent = curScore)
         : (currentScoreP2.textContent = curScore);
-    } else if (player1.classList.contains('player--active')) {
-      curScore = 0;
-      currentScoreP1.textContent = curScore;
-      player1.classList.remove('player--active');
-      player2.classList.add('player--active');
     } else {
-      curScore = 0;
-      currentScoreP2.textContent = curScore;
-      player2.classList.remove('player--active');
-      player1.classList.add('player--active');
+      changePlayer();
     }
   }
 });
 
 document.querySelector('.btn--hold').addEventListener('click', function () {
   if (totalScore1 < 100 && totalScore2 < 100) {
-    if (player1.classList.contains('player--active')) {
-      totalScore1 += curScore;
-      totalScoreP1.textContent = totalScore1;
-      curScore = 0;
-      currentScoreP1.textContent = curScore;
-      player1.classList.remove('player--active');
-      player2.classList.add('player--active');
-    } else {
-      totalScore2 += curScore;
-      totalScoreP2.textContent = totalScore2;
-      curScore = 0;
-      currentScoreP2.textContent = curScore;
-      player2.classList.remove('player--active');
-      player1.classList.add('player--active');
-    }
-  }
-  if (totalScore1 >= 100) {
-    player1.classList.add('player--winner');
-    player2.classList.remove('player--active');
-    player1.classList.add('player--active');
-  }
-  if (totalScore2 >= 100) {
-    player2.classList.add('player--winner');
-    player1.classList.remove('player--active');
-    player2.classList.add('player--active');
+    sumTotalScore();
+    verifyPlayerWinner();
   }
 });
+
 document.querySelector('.btn--new').addEventListener('click', function () {
   curScore = 0;
   totalScore1 = 0;
