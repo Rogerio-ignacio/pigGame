@@ -1,22 +1,22 @@
 'use strict';
 
-let dice = document.querySelector('.dice');
-let totalScoreP1 = document.querySelector('#score--0');
-let totalScoreP2 = document.querySelector('#score--1');
-let currentScoreP1 = document.querySelector('#current--0');
-let currentScoreP2 = document.querySelector('#current--1');
-let player1 = document.querySelector('.player--0');
-let player2 = document.querySelector('.player--1');
+const dice = document.querySelector('.dice');
+const totalScoreP1 = document.getElementById('score--0');
+const totalScoreP2 = document.getElementById('score--1');
+const currentScoreP1 = document.getElementById('current--0');
+const currentScoreP2 = document.getElementById('current--1');
+const player1 = document.querySelector('.player--0');
+const player2 = document.querySelector('.player--1');
 
 totalScoreP1.textContent = 0;
 totalScoreP2.textContent = 0;
+dice.classList.add('hidden');
 let curScore = 0;
 let totalScore1 = 0;
 let totalScore2 = 0;
-let player = [0, 1];
 
 // FUNCTIONS
-const changePlayer = function () {
+const switchPlayer = function () {
   if (player1.classList.contains('player--active')) {
     curScore = 0;
     currentScoreP1.textContent = curScore;
@@ -46,11 +46,11 @@ const sumTotalScore = function () {
   if (player1.classList.contains('player--active')) {
     totalScore1 += curScore;
     totalScoreP1.textContent = totalScore1;
-    changePlayer();
+    switchPlayer();
   } else {
     totalScore2 += curScore;
     totalScoreP2.textContent = totalScore2;
-    changePlayer();
+    switchPlayer();
   }
 };
 
@@ -58,14 +58,17 @@ const sumTotalScore = function () {
 document.querySelector('.btn--roll').addEventListener('click', function () {
   if (totalScore1 < 100 && totalScore2 < 100) {
     const randDice = Math.trunc(Math.random() * 6) + 1;
+    dice.classList.remove('hidden');
     dice.src = `dice-${randDice}.png`;
     if (randDice !== 1) {
+      // Add dice to the current score
       curScore += randDice;
+
       player1.classList.contains('player--active')
         ? (currentScoreP1.textContent = curScore)
         : (currentScoreP2.textContent = curScore);
     } else {
-      changePlayer();
+      switchPlayer();
     }
   }
 });
@@ -91,4 +94,5 @@ document.querySelector('.btn--new').addEventListener('click', function () {
   player2.classList.remove('player--winner');
   player2.classList.remove('player--active');
   player1.classList.add('player--active');
+  dice.classList.add('hidden');
 });
